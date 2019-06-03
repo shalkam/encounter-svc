@@ -1,0 +1,19 @@
+# import * from 'primitiveTypes';
+# import Patient, PatientConnection from './patient.graphql';
+# import PatientInput from './patientInput.graphql'
+
+type Query {
+    patient(id: ID!): Patient
+    patients: PatientConnection
+}
+
+type Mutation {
+    createPatient(data: PatientInput!): Patient
+}
+
+enum BindingStrengthEnum {
+    required
+    extensible
+    preferred
+    example
+}

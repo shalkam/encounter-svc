@@ -1,0 +1,23 @@
+# import PatientHumanName, PatientIdentifier, PatientContactPoint, PatientCodeableConcept, PatientAddress from '../../generated/prisma.graphql'
+
+type Patient {
+  id: ID!
+  name: [PatientHumanName!]
+  identifier: [PatientIdentifier!]
+  telecom: [PatientContactPoint!]
+  birthDate: date
+  gender: code
+  mariatalStatus: PatientCodeableConcept!
+  address: [PatientAddress!]
+}
+
+type PatientEdge {
+  node: Patient!
+  cursor: String!
+}
+
+type PatientConnection {
+  pageInfo: PageInfo!
+  edges: [PatientEdge]!
+  aggregate: AggregatePatientModel!
+}

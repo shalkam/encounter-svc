@@ -1,0 +1,59 @@
+# import card from 'directives'
+
+input PatientInput {
+    name: [PatientHumanNameInput] @card(min: "1", max: "1")
+    identifier: [PatientIdentifierInput] @card(min: "1", max: "1")
+    telecom: [PatientContactPointInput]
+    birthDate: date
+    gender: code @binding(
+        strength: required
+        description: "This value set defines the set of codes that can be used to indicate the marital status of a person."
+        codeSystem: "http://localhost:4001/codeSystems/codesystem-administrative-gender.json"
+    )
+    mariatalStatus: CodeableConceptInput! @binding(
+        strength: required
+        description: "This value set defines the set of codes that can be used to indicate the marital status of a person."
+        codeSystem: "http://localhost:4001/codeSystems/v3-MaritalStatus.cs.json"
+    )
+    address: [PatientAddressInput] @card(min: "1", max: "1")
+}
+
+input CodeableConceptInput {
+    coding: [CodingInput]
+    text: String
+}
+
+input CodingInput {
+    system: String
+    version: String
+    code: code
+    display: String
+    userSelected: Boolean
+}
+
+input PatientHumanNameInput {
+    text: String
+    given: [String] @card(min: "1", max: "2")
+    family: String!
+}
+
+input PatientContactPointInput {
+    system: String @fixedCode(value: "phone")
+    value: String
+}
+
+input PatientAddressInput {
+    text: String
+}
+
+input PatientIdentifierInput {
+    value: String!
+    system: String @fixedString(value: "https://en.wikipedia.org/wiki/Identity_document")
+}
+
+enum GenderEnum {
+    male
+    female
+    other
+    unkown
+}

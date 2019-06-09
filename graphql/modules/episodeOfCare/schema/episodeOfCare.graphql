@@ -1,0 +1,33 @@
+type EpisodeOfCare {
+    id: id!
+    status: code @binding(
+        strength: required
+        description: "The status of the episode of care."
+        codeSystem: "http://localhost:4001/codeSystems/episodeOfCareStatus.json"
+    )
+    statusHistory: [statusHistory]
+    diagnosis: [Diagnosis]
+}
+
+type statusHistory {
+    status: code @binding(
+        strength: required
+        description: "The status of the episode of care."
+        codeSystem: "http://localhost:4001/codeSystems/episodeOfCareStatus.json"
+    )
+    period: Period
+}
+
+type Period {
+    start: dateTime
+    end: dateTime
+}
+
+type Diagnosis {
+    condition: ConditionReference!
+}
+
+type ConditionReference {
+    reference: string!
+    type: uri @fixedUri()
+}

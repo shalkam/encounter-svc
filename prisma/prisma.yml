@@ -1,8 +1,5 @@
 endpoint: ${env:PRISMA_ENDPOINT}
 datamodel: datamodel.graphql
-hooks:
-  post-deploy:
-    - prisma generate
 generate:
   - generator: graphql-schema
     output: ../generated/prisma.graphql

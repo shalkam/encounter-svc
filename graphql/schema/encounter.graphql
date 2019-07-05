@@ -1,0 +1,18 @@
+# import Reference, Diagnosis from '../../generated/prisma.graphql'
+
+type Encounter {
+  id: ID
+  subject: String!
+  diagnosis: String
+}
+
+type EncounterEdge {
+  node: Encounter!
+  cursor: String!
+}
+
+type EncounterConnection {
+  pageInfo: PageInfo!
+  edges:  [EncounterEdge]!
+  aggregate: AggregateEncounterModel!
+}

@@ -1,14 +1,13 @@
-# import * from 'primitiveTypes';
-# import Patient, PatientConnection from './patient.graphql';
-# import PatientInput from './patientInput.graphql'
+# import Encounter, EncounterConnection from './graphql/schema/encounter.graphql';
+# import EncounterInput from './graphql/schema/encounterInput.graphql'
 
 type Query {
-    patient(id: ID!): Patient
-    patients: PatientConnection
+    encounter(id: ID!): Encounter
+    encounters: EncounterConnection
 }
 
 type Mutation {
-    createPatient(data: PatientInput!): Patient
+    createEncounter(data: EncounterInput!): Encounter
 }
 
 enum BindingStrengthEnum {

@@ -2,7 +2,15 @@ type AggregateDiagnosis {
   count: Int!
 }
 
-type AggregateEncounter {
+type AggregateEncounterCodeableConcept {
+  count: Int!
+}
+
+type AggregateEncounterCoding {
+  count: Int!
+}
+
+type AggregateEncounterModel {
   count: Int!
 }
 
@@ -16,7 +24,7 @@ type BatchPayload {
 
 type Diagnosis {
   id: ID!
-  use: String!
+  use: EncounterCodeableConcept!
   condition: Reference
 }
 
@@ -28,7 +36,7 @@ type DiagnosisConnection {
 
 input DiagnosisCreateInput {
   id: ID
-  use: String!
+  use: EncounterCodeableConceptCreateOneInput!
   condition: ReferenceCreateOneInput
 }
 
@@ -45,13 +53,10 @@ type DiagnosisEdge {
 enum DiagnosisOrderByInput {
   id_ASC
   id_DESC
-  use_ASC
-  use_DESC
 }
 
 type DiagnosisPreviousValues {
   id: ID!
-  use: String!
 }
 
 input DiagnosisScalarWhereInput {
@@ -69,20 +74,6 @@ input DiagnosisScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  use: String
-  use_not: String
-  use_in: [String!]
-  use_not_in: [String!]
-  use_lt: String
-  use_lte: String
-  use_gt: String
-  use_gte: String
-  use_contains: String
-  use_not_contains: String
-  use_starts_with: String
-  use_not_starts_with: String
-  use_ends_with: String
-  use_not_ends_with: String
   AND: [DiagnosisScalarWhereInput!]
   OR: [DiagnosisScalarWhereInput!]
   NOT: [DiagnosisScalarWhereInput!]
@@ -107,17 +98,13 @@ input DiagnosisSubscriptionWhereInput {
 }
 
 input DiagnosisUpdateDataInput {
-  use: String
+  use: EncounterCodeableConceptUpdateOneRequiredInput
   condition: ReferenceUpdateOneInput
 }
 
 input DiagnosisUpdateInput {
-  use: String
+  use: EncounterCodeableConceptUpdateOneRequiredInput
   condition: ReferenceUpdateOneInput
-}
-
-input DiagnosisUpdateManyDataInput {
-  use: String
 }
 
 input DiagnosisUpdateManyInput {
@@ -129,16 +116,6 @@ input DiagnosisUpdateManyInput {
   set: [DiagnosisWhereUniqueInput!]
   disconnect: [DiagnosisWhereUniqueInput!]
   deleteMany: [DiagnosisScalarWhereInput!]
-  updateMany: [DiagnosisUpdateManyWithWhereNestedInput!]
-}
-
-input DiagnosisUpdateManyMutationInput {
-  use: String
-}
-
-input DiagnosisUpdateManyWithWhereNestedInput {
-  where: DiagnosisScalarWhereInput!
-  data: DiagnosisUpdateManyDataInput!
 }
 
 input DiagnosisUpdateWithWhereUniqueNestedInput {
@@ -167,20 +144,7 @@ input DiagnosisWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  use: String
-  use_not: String
-  use_in: [String!]
-  use_not_in: [String!]
-  use_lt: String
-  use_lte: String
-  use_gt: String
-  use_gte: String
-  use_contains: String
-  use_not_contains: String
-  use_starts_with: String
-  use_not_starts_with: String
-  use_ends_with: String
-  use_not_ends_with: String
+  use: EncounterCodeableConceptWhereInput
   condition: ReferenceWhereInput
   AND: [DiagnosisWhereInput!]
   OR: [DiagnosisWhereInput!]
@@ -191,62 +155,483 @@ input DiagnosisWhereUniqueInput {
   id: ID
 }
 
-type Encounter {
+type EncounterCodeableConcept {
+  id: ID!
+  coding(where: EncounterCodingWhereInput, orderBy: EncounterCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EncounterCoding!]
+  text: String
+}
+
+type EncounterCodeableConceptConnection {
+  pageInfo: PageInfo!
+  edges: [EncounterCodeableConceptEdge]!
+  aggregate: AggregateEncounterCodeableConcept!
+}
+
+input EncounterCodeableConceptCreateInput {
+  id: ID
+  coding: EncounterCodingCreateManyInput
+  text: String
+}
+
+input EncounterCodeableConceptCreateOneInput {
+  create: EncounterCodeableConceptCreateInput
+  connect: EncounterCodeableConceptWhereUniqueInput
+}
+
+type EncounterCodeableConceptEdge {
+  node: EncounterCodeableConcept!
+  cursor: String!
+}
+
+enum EncounterCodeableConceptOrderByInput {
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+}
+
+type EncounterCodeableConceptPreviousValues {
+  id: ID!
+  text: String
+}
+
+type EncounterCodeableConceptSubscriptionPayload {
+  mutation: MutationType!
+  node: EncounterCodeableConcept
+  updatedFields: [String!]
+  previousValues: EncounterCodeableConceptPreviousValues
+}
+
+input EncounterCodeableConceptSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EncounterCodeableConceptWhereInput
+  AND: [EncounterCodeableConceptSubscriptionWhereInput!]
+  OR: [EncounterCodeableConceptSubscriptionWhereInput!]
+  NOT: [EncounterCodeableConceptSubscriptionWhereInput!]
+}
+
+input EncounterCodeableConceptUpdateDataInput {
+  coding: EncounterCodingUpdateManyInput
+  text: String
+}
+
+input EncounterCodeableConceptUpdateInput {
+  coding: EncounterCodingUpdateManyInput
+  text: String
+}
+
+input EncounterCodeableConceptUpdateManyMutationInput {
+  text: String
+}
+
+input EncounterCodeableConceptUpdateOneRequiredInput {
+  create: EncounterCodeableConceptCreateInput
+  update: EncounterCodeableConceptUpdateDataInput
+  upsert: EncounterCodeableConceptUpsertNestedInput
+  connect: EncounterCodeableConceptWhereUniqueInput
+}
+
+input EncounterCodeableConceptUpsertNestedInput {
+  update: EncounterCodeableConceptUpdateDataInput!
+  create: EncounterCodeableConceptCreateInput!
+}
+
+input EncounterCodeableConceptWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  coding_every: EncounterCodingWhereInput
+  coding_some: EncounterCodingWhereInput
+  coding_none: EncounterCodingWhereInput
+  text: String
+  text_not: String
+  text_in: [String!]
+  text_not_in: [String!]
+  text_lt: String
+  text_lte: String
+  text_gt: String
+  text_gte: String
+  text_contains: String
+  text_not_contains: String
+  text_starts_with: String
+  text_not_starts_with: String
+  text_ends_with: String
+  text_not_ends_with: String
+  AND: [EncounterCodeableConceptWhereInput!]
+  OR: [EncounterCodeableConceptWhereInput!]
+  NOT: [EncounterCodeableConceptWhereInput!]
+}
+
+input EncounterCodeableConceptWhereUniqueInput {
+  id: ID
+}
+
+type EncounterCoding {
+  id: ID!
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+type EncounterCodingConnection {
+  pageInfo: PageInfo!
+  edges: [EncounterCodingEdge]!
+  aggregate: AggregateEncounterCoding!
+}
+
+input EncounterCodingCreateInput {
+  id: ID
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingCreateManyInput {
+  create: [EncounterCodingCreateInput!]
+  connect: [EncounterCodingWhereUniqueInput!]
+}
+
+type EncounterCodingEdge {
+  node: EncounterCoding!
+  cursor: String!
+}
+
+enum EncounterCodingOrderByInput {
+  id_ASC
+  id_DESC
+  system_ASC
+  system_DESC
+  version_ASC
+  version_DESC
+  code_ASC
+  code_DESC
+  display_ASC
+  display_DESC
+  userSelected_ASC
+  userSelected_DESC
+}
+
+type EncounterCodingPreviousValues {
+  id: ID!
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  system: String
+  system_not: String
+  system_in: [String!]
+  system_not_in: [String!]
+  system_lt: String
+  system_lte: String
+  system_gt: String
+  system_gte: String
+  system_contains: String
+  system_not_contains: String
+  system_starts_with: String
+  system_not_starts_with: String
+  system_ends_with: String
+  system_not_ends_with: String
+  version: String
+  version_not: String
+  version_in: [String!]
+  version_not_in: [String!]
+  version_lt: String
+  version_lte: String
+  version_gt: String
+  version_gte: String
+  version_contains: String
+  version_not_contains: String
+  version_starts_with: String
+  version_not_starts_with: String
+  version_ends_with: String
+  version_not_ends_with: String
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  display: String
+  display_not: String
+  display_in: [String!]
+  display_not_in: [String!]
+  display_lt: String
+  display_lte: String
+  display_gt: String
+  display_gte: String
+  display_contains: String
+  display_not_contains: String
+  display_starts_with: String
+  display_not_starts_with: String
+  display_ends_with: String
+  display_not_ends_with: String
+  userSelected: Boolean
+  userSelected_not: Boolean
+  AND: [EncounterCodingScalarWhereInput!]
+  OR: [EncounterCodingScalarWhereInput!]
+  NOT: [EncounterCodingScalarWhereInput!]
+}
+
+type EncounterCodingSubscriptionPayload {
+  mutation: MutationType!
+  node: EncounterCoding
+  updatedFields: [String!]
+  previousValues: EncounterCodingPreviousValues
+}
+
+input EncounterCodingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EncounterCodingWhereInput
+  AND: [EncounterCodingSubscriptionWhereInput!]
+  OR: [EncounterCodingSubscriptionWhereInput!]
+  NOT: [EncounterCodingSubscriptionWhereInput!]
+}
+
+input EncounterCodingUpdateDataInput {
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingUpdateInput {
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingUpdateManyDataInput {
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingUpdateManyInput {
+  create: [EncounterCodingCreateInput!]
+  update: [EncounterCodingUpdateWithWhereUniqueNestedInput!]
+  upsert: [EncounterCodingUpsertWithWhereUniqueNestedInput!]
+  delete: [EncounterCodingWhereUniqueInput!]
+  connect: [EncounterCodingWhereUniqueInput!]
+  set: [EncounterCodingWhereUniqueInput!]
+  disconnect: [EncounterCodingWhereUniqueInput!]
+  deleteMany: [EncounterCodingScalarWhereInput!]
+  updateMany: [EncounterCodingUpdateManyWithWhereNestedInput!]
+}
+
+input EncounterCodingUpdateManyMutationInput {
+  system: String
+  version: String
+  code: String
+  display: String
+  userSelected: Boolean
+}
+
+input EncounterCodingUpdateManyWithWhereNestedInput {
+  where: EncounterCodingScalarWhereInput!
+  data: EncounterCodingUpdateManyDataInput!
+}
+
+input EncounterCodingUpdateWithWhereUniqueNestedInput {
+  where: EncounterCodingWhereUniqueInput!
+  data: EncounterCodingUpdateDataInput!
+}
+
+input EncounterCodingUpsertWithWhereUniqueNestedInput {
+  where: EncounterCodingWhereUniqueInput!
+  update: EncounterCodingUpdateDataInput!
+  create: EncounterCodingCreateInput!
+}
+
+input EncounterCodingWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  system: String
+  system_not: String
+  system_in: [String!]
+  system_not_in: [String!]
+  system_lt: String
+  system_lte: String
+  system_gt: String
+  system_gte: String
+  system_contains: String
+  system_not_contains: String
+  system_starts_with: String
+  system_not_starts_with: String
+  system_ends_with: String
+  system_not_ends_with: String
+  version: String
+  version_not: String
+  version_in: [String!]
+  version_not_in: [String!]
+  version_lt: String
+  version_lte: String
+  version_gt: String
+  version_gte: String
+  version_contains: String
+  version_not_contains: String
+  version_starts_with: String
+  version_not_starts_with: String
+  version_ends_with: String
+  version_not_ends_with: String
+  code: String
+  code_not: String
+  code_in: [String!]
+  code_not_in: [String!]
+  code_lt: String
+  code_lte: String
+  code_gt: String
+  code_gte: String
+  code_contains: String
+  code_not_contains: String
+  code_starts_with: String
+  code_not_starts_with: String
+  code_ends_with: String
+  code_not_ends_with: String
+  display: String
+  display_not: String
+  display_in: [String!]
+  display_not_in: [String!]
+  display_lt: String
+  display_lte: String
+  display_gt: String
+  display_gte: String
+  display_contains: String
+  display_not_contains: String
+  display_starts_with: String
+  display_not_starts_with: String
+  display_ends_with: String
+  display_not_ends_with: String
+  userSelected: Boolean
+  userSelected_not: Boolean
+  AND: [EncounterCodingWhereInput!]
+  OR: [EncounterCodingWhereInput!]
+  NOT: [EncounterCodingWhereInput!]
+}
+
+input EncounterCodingWhereUniqueInput {
+  id: ID
+}
+
+type EncounterModel {
   id: ID!
   subject: Reference!
   diagnosis(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Diagnosis!]
 }
 
-type EncounterConnection {
+type EncounterModelConnection {
   pageInfo: PageInfo!
-  edges: [EncounterEdge]!
-  aggregate: AggregateEncounter!
+  edges: [EncounterModelEdge]!
+  aggregate: AggregateEncounterModel!
 }
 
-input EncounterCreateInput {
+input EncounterModelCreateInput {
   id: ID
   subject: ReferenceCreateOneInput!
   diagnosis: DiagnosisCreateManyInput
 }
 
-type EncounterEdge {
-  node: Encounter!
+type EncounterModelEdge {
+  node: EncounterModel!
   cursor: String!
 }
 
-enum EncounterOrderByInput {
+enum EncounterModelOrderByInput {
   id_ASC
   id_DESC
 }
 
-type EncounterPreviousValues {
+type EncounterModelPreviousValues {
   id: ID!
 }
 
-type EncounterSubscriptionPayload {
+type EncounterModelSubscriptionPayload {
   mutation: MutationType!
-  node: Encounter
+  node: EncounterModel
   updatedFields: [String!]
-  previousValues: EncounterPreviousValues
+  previousValues: EncounterModelPreviousValues
 }
 
-input EncounterSubscriptionWhereInput {
+input EncounterModelSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: EncounterWhereInput
-  AND: [EncounterSubscriptionWhereInput!]
-  OR: [EncounterSubscriptionWhereInput!]
-  NOT: [EncounterSubscriptionWhereInput!]
+  node: EncounterModelWhereInput
+  AND: [EncounterModelSubscriptionWhereInput!]
+  OR: [EncounterModelSubscriptionWhereInput!]
+  NOT: [EncounterModelSubscriptionWhereInput!]
 }
 
-input EncounterUpdateInput {
+input EncounterModelUpdateInput {
   subject: ReferenceUpdateOneRequiredInput
   diagnosis: DiagnosisUpdateManyInput
 }
 
-input EncounterWhereInput {
+input EncounterModelWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -265,12 +650,12 @@ input EncounterWhereInput {
   diagnosis_every: DiagnosisWhereInput
   diagnosis_some: DiagnosisWhereInput
   diagnosis_none: DiagnosisWhereInput
-  AND: [EncounterWhereInput!]
-  OR: [EncounterWhereInput!]
-  NOT: [EncounterWhereInput!]
+  AND: [EncounterModelWhereInput!]
+  OR: [EncounterModelWhereInput!]
+  NOT: [EncounterModelWhereInput!]
 }
 
-input EncounterWhereUniqueInput {
+input EncounterModelWhereUniqueInput {
   id: ID
 }
 
@@ -279,15 +664,26 @@ scalar Long
 type Mutation {
   createDiagnosis(data: DiagnosisCreateInput!): Diagnosis!
   updateDiagnosis(data: DiagnosisUpdateInput!, where: DiagnosisWhereUniqueInput!): Diagnosis
-  updateManyDiagnoses(data: DiagnosisUpdateManyMutationInput!, where: DiagnosisWhereInput): BatchPayload!
   upsertDiagnosis(where: DiagnosisWhereUniqueInput!, create: DiagnosisCreateInput!, update: DiagnosisUpdateInput!): Diagnosis!
   deleteDiagnosis(where: DiagnosisWhereUniqueInput!): Diagnosis
   deleteManyDiagnoses(where: DiagnosisWhereInput): BatchPayload!
-  createEncounter(data: EncounterCreateInput!): Encounter!
-  updateEncounter(data: EncounterUpdateInput!, where: EncounterWhereUniqueInput!): Encounter
-  upsertEncounter(where: EncounterWhereUniqueInput!, create: EncounterCreateInput!, update: EncounterUpdateInput!): Encounter!
-  deleteEncounter(where: EncounterWhereUniqueInput!): Encounter
-  deleteManyEncounters(where: EncounterWhereInput): BatchPayload!
+  createEncounterCodeableConcept(data: EncounterCodeableConceptCreateInput!): EncounterCodeableConcept!
+  updateEncounterCodeableConcept(data: EncounterCodeableConceptUpdateInput!, where: EncounterCodeableConceptWhereUniqueInput!): EncounterCodeableConcept
+  updateManyEncounterCodeableConcepts(data: EncounterCodeableConceptUpdateManyMutationInput!, where: EncounterCodeableConceptWhereInput): BatchPayload!
+  upsertEncounterCodeableConcept(where: EncounterCodeableConceptWhereUniqueInput!, create: EncounterCodeableConceptCreateInput!, update: EncounterCodeableConceptUpdateInput!): EncounterCodeableConcept!
+  deleteEncounterCodeableConcept(where: EncounterCodeableConceptWhereUniqueInput!): EncounterCodeableConcept
+  deleteManyEncounterCodeableConcepts(where: EncounterCodeableConceptWhereInput): BatchPayload!
+  createEncounterCoding(data: EncounterCodingCreateInput!): EncounterCoding!
+  updateEncounterCoding(data: EncounterCodingUpdateInput!, where: EncounterCodingWhereUniqueInput!): EncounterCoding
+  updateManyEncounterCodings(data: EncounterCodingUpdateManyMutationInput!, where: EncounterCodingWhereInput): BatchPayload!
+  upsertEncounterCoding(where: EncounterCodingWhereUniqueInput!, create: EncounterCodingCreateInput!, update: EncounterCodingUpdateInput!): EncounterCoding!
+  deleteEncounterCoding(where: EncounterCodingWhereUniqueInput!): EncounterCoding
+  deleteManyEncounterCodings(where: EncounterCodingWhereInput): BatchPayload!
+  createEncounterModel(data: EncounterModelCreateInput!): EncounterModel!
+  updateEncounterModel(data: EncounterModelUpdateInput!, where: EncounterModelWhereUniqueInput!): EncounterModel
+  upsertEncounterModel(where: EncounterModelWhereUniqueInput!, create: EncounterModelCreateInput!, update: EncounterModelUpdateInput!): EncounterModel!
+  deleteEncounterModel(where: EncounterModelWhereUniqueInput!): EncounterModel
+  deleteManyEncounterModels(where: EncounterModelWhereInput): BatchPayload!
   createReference(data: ReferenceCreateInput!): Reference!
   updateReference(data: ReferenceUpdateInput!, where: ReferenceWhereUniqueInput!): Reference
   updateManyReferences(data: ReferenceUpdateManyMutationInput!, where: ReferenceWhereInput): BatchPayload!
@@ -317,9 +713,15 @@ type Query {
   diagnosis(where: DiagnosisWhereUniqueInput!): Diagnosis
   diagnoses(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Diagnosis]!
   diagnosesConnection(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DiagnosisConnection!
-  encounter(where: EncounterWhereUniqueInput!): Encounter
-  encounters(where: EncounterWhereInput, orderBy: EncounterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Encounter]!
-  encountersConnection(where: EncounterWhereInput, orderBy: EncounterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EncounterConnection!
+  encounterCodeableConcept(where: EncounterCodeableConceptWhereUniqueInput!): EncounterCodeableConcept
+  encounterCodeableConcepts(where: EncounterCodeableConceptWhereInput, orderBy: EncounterCodeableConceptOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EncounterCodeableConcept]!
+  encounterCodeableConceptsConnection(where: EncounterCodeableConceptWhereInput, orderBy: EncounterCodeableConceptOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EncounterCodeableConceptConnection!
+  encounterCoding(where: EncounterCodingWhereUniqueInput!): EncounterCoding
+  encounterCodings(where: EncounterCodingWhereInput, orderBy: EncounterCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EncounterCoding]!
+  encounterCodingsConnection(where: EncounterCodingWhereInput, orderBy: EncounterCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EncounterCodingConnection!
+  encounterModel(where: EncounterModelWhereUniqueInput!): EncounterModel
+  encounterModels(where: EncounterModelWhereInput, orderBy: EncounterModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [EncounterModel]!
+  encounterModelsConnection(where: EncounterModelWhereInput, orderBy: EncounterModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EncounterModelConnection!
   reference(where: ReferenceWhereUniqueInput!): Reference
   references(where: ReferenceWhereInput, orderBy: ReferenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reference]!
   referencesConnection(where: ReferenceWhereInput, orderBy: ReferenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferenceConnection!
@@ -499,6 +901,8 @@ input ReferenceWhereUniqueInput {
 
 type Subscription {
   diagnosis(where: DiagnosisSubscriptionWhereInput): DiagnosisSubscriptionPayload
-  encounter(where: EncounterSubscriptionWhereInput): EncounterSubscriptionPayload
+  encounterCodeableConcept(where: EncounterCodeableConceptSubscriptionWhereInput): EncounterCodeableConceptSubscriptionPayload
+  encounterCoding(where: EncounterCodingSubscriptionWhereInput): EncounterCodingSubscriptionPayload
+  encounterModel(where: EncounterModelSubscriptionWhereInput): EncounterModelSubscriptionPayload
   reference(where: ReferenceSubscriptionWhereInput): ReferenceSubscriptionPayload
 }

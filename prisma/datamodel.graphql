@@ -1,4 +1,4 @@
-type Encounter {
+type EncounterModel {
     id: ID! @id
     subject: Reference!
     diagnosis: [Diagnosis]
@@ -6,7 +6,7 @@ type Encounter {
 
 type Diagnosis {
     id: ID! @id
-    use: String!
+    use: EncounterCodeableConcept!
     condition: Reference
 }
 
@@ -15,4 +15,19 @@ type Reference {
     reference: String!
     type: String
     display: String
+}
+
+type EncounterCodeableConcept {
+    id: ID! @id
+    coding: [EncounterCoding]
+    text: String
+}
+
+type EncounterCoding {
+    id: ID! @id
+    system: String
+    version: String
+    code: String
+    display: String
+    userSelected: Boolean
 }

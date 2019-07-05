@@ -1,28 +1,12 @@
-type AggregatePatientAddress {
+type AggregateDiagnosis {
   count: Int!
 }
 
-type AggregatePatientCodeableConcept {
+type AggregateEncounter {
   count: Int!
 }
 
-type AggregatePatientCoding {
-  count: Int!
-}
-
-type AggregatePatientContactPoint {
-  count: Int!
-}
-
-type AggregatePatientHumanName {
-  count: Int!
-}
-
-type AggregatePatientIdentifier {
-  count: Int!
-}
-
-type AggregatePatientModel {
+type AggregateReference {
   count: Int!
 }
 
@@ -30,35 +14,286 @@ type BatchPayload {
   count: Long!
 }
 
-scalar DateTime
+type Diagnosis {
+  id: ID!
+  use: String!
+  condition: Reference
+}
+
+type DiagnosisConnection {
+  pageInfo: PageInfo!
+  edges: [DiagnosisEdge]!
+  aggregate: AggregateDiagnosis!
+}
+
+input DiagnosisCreateInput {
+  id: ID
+  use: String!
+  condition: ReferenceCreateOneInput
+}
+
+input DiagnosisCreateManyInput {
+  create: [DiagnosisCreateInput!]
+  connect: [DiagnosisWhereUniqueInput!]
+}
+
+type DiagnosisEdge {
+  node: Diagnosis!
+  cursor: String!
+}
+
+enum DiagnosisOrderByInput {
+  id_ASC
+  id_DESC
+  use_ASC
+  use_DESC
+}
+
+type DiagnosisPreviousValues {
+  id: ID!
+  use: String!
+}
+
+input DiagnosisScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  use: String
+  use_not: String
+  use_in: [String!]
+  use_not_in: [String!]
+  use_lt: String
+  use_lte: String
+  use_gt: String
+  use_gte: String
+  use_contains: String
+  use_not_contains: String
+  use_starts_with: String
+  use_not_starts_with: String
+  use_ends_with: String
+  use_not_ends_with: String
+  AND: [DiagnosisScalarWhereInput!]
+  OR: [DiagnosisScalarWhereInput!]
+  NOT: [DiagnosisScalarWhereInput!]
+}
+
+type DiagnosisSubscriptionPayload {
+  mutation: MutationType!
+  node: Diagnosis
+  updatedFields: [String!]
+  previousValues: DiagnosisPreviousValues
+}
+
+input DiagnosisSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: DiagnosisWhereInput
+  AND: [DiagnosisSubscriptionWhereInput!]
+  OR: [DiagnosisSubscriptionWhereInput!]
+  NOT: [DiagnosisSubscriptionWhereInput!]
+}
+
+input DiagnosisUpdateDataInput {
+  use: String
+  condition: ReferenceUpdateOneInput
+}
+
+input DiagnosisUpdateInput {
+  use: String
+  condition: ReferenceUpdateOneInput
+}
+
+input DiagnosisUpdateManyDataInput {
+  use: String
+}
+
+input DiagnosisUpdateManyInput {
+  create: [DiagnosisCreateInput!]
+  update: [DiagnosisUpdateWithWhereUniqueNestedInput!]
+  upsert: [DiagnosisUpsertWithWhereUniqueNestedInput!]
+  delete: [DiagnosisWhereUniqueInput!]
+  connect: [DiagnosisWhereUniqueInput!]
+  set: [DiagnosisWhereUniqueInput!]
+  disconnect: [DiagnosisWhereUniqueInput!]
+  deleteMany: [DiagnosisScalarWhereInput!]
+  updateMany: [DiagnosisUpdateManyWithWhereNestedInput!]
+}
+
+input DiagnosisUpdateManyMutationInput {
+  use: String
+}
+
+input DiagnosisUpdateManyWithWhereNestedInput {
+  where: DiagnosisScalarWhereInput!
+  data: DiagnosisUpdateManyDataInput!
+}
+
+input DiagnosisUpdateWithWhereUniqueNestedInput {
+  where: DiagnosisWhereUniqueInput!
+  data: DiagnosisUpdateDataInput!
+}
+
+input DiagnosisUpsertWithWhereUniqueNestedInput {
+  where: DiagnosisWhereUniqueInput!
+  update: DiagnosisUpdateDataInput!
+  create: DiagnosisCreateInput!
+}
+
+input DiagnosisWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  use: String
+  use_not: String
+  use_in: [String!]
+  use_not_in: [String!]
+  use_lt: String
+  use_lte: String
+  use_gt: String
+  use_gte: String
+  use_contains: String
+  use_not_contains: String
+  use_starts_with: String
+  use_not_starts_with: String
+  use_ends_with: String
+  use_not_ends_with: String
+  condition: ReferenceWhereInput
+  AND: [DiagnosisWhereInput!]
+  OR: [DiagnosisWhereInput!]
+  NOT: [DiagnosisWhereInput!]
+}
+
+input DiagnosisWhereUniqueInput {
+  id: ID
+}
+
+type Encounter {
+  id: ID!
+  subject: Reference!
+  diagnosis(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Diagnosis!]
+}
+
+type EncounterConnection {
+  pageInfo: PageInfo!
+  edges: [EncounterEdge]!
+  aggregate: AggregateEncounter!
+}
+
+input EncounterCreateInput {
+  id: ID
+  subject: ReferenceCreateOneInput!
+  diagnosis: DiagnosisCreateManyInput
+}
+
+type EncounterEdge {
+  node: Encounter!
+  cursor: String!
+}
+
+enum EncounterOrderByInput {
+  id_ASC
+  id_DESC
+}
+
+type EncounterPreviousValues {
+  id: ID!
+}
+
+type EncounterSubscriptionPayload {
+  mutation: MutationType!
+  node: Encounter
+  updatedFields: [String!]
+  previousValues: EncounterPreviousValues
+}
+
+input EncounterSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EncounterWhereInput
+  AND: [EncounterSubscriptionWhereInput!]
+  OR: [EncounterSubscriptionWhereInput!]
+  NOT: [EncounterSubscriptionWhereInput!]
+}
+
+input EncounterUpdateInput {
+  subject: ReferenceUpdateOneRequiredInput
+  diagnosis: DiagnosisUpdateManyInput
+}
+
+input EncounterWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  subject: ReferenceWhereInput
+  diagnosis_every: DiagnosisWhereInput
+  diagnosis_some: DiagnosisWhereInput
+  diagnosis_none: DiagnosisWhereInput
+  AND: [EncounterWhereInput!]
+  OR: [EncounterWhereInput!]
+  NOT: [EncounterWhereInput!]
+}
+
+input EncounterWhereUniqueInput {
+  id: ID
+}
 
 scalar Long
 
 type Mutation {
-  createPatientAddress(data: PatientAddressCreateInput!): PatientAddress!
-  updateManyPatientAddresses(data: PatientAddressUpdateManyMutationInput!, where: PatientAddressWhereInput): BatchPayload!
-  deleteManyPatientAddresses(where: PatientAddressWhereInput): BatchPayload!
-  createPatientCodeableConcept(data: PatientCodeableConceptCreateInput!): PatientCodeableConcept!
-  updateManyPatientCodeableConcepts(data: PatientCodeableConceptUpdateManyMutationInput!, where: PatientCodeableConceptWhereInput): BatchPayload!
-  deleteManyPatientCodeableConcepts(where: PatientCodeableConceptWhereInput): BatchPayload!
-  createPatientCoding(data: PatientCodingCreateInput!): PatientCoding!
-  updateManyPatientCodings(data: PatientCodingUpdateManyMutationInput!, where: PatientCodingWhereInput): BatchPayload!
-  deleteManyPatientCodings(where: PatientCodingWhereInput): BatchPayload!
-  createPatientContactPoint(data: PatientContactPointCreateInput!): PatientContactPoint!
-  updateManyPatientContactPoints(data: PatientContactPointUpdateManyMutationInput!, where: PatientContactPointWhereInput): BatchPayload!
-  deleteManyPatientContactPoints(where: PatientContactPointWhereInput): BatchPayload!
-  createPatientHumanName(data: PatientHumanNameCreateInput!): PatientHumanName!
-  updateManyPatientHumanNames(data: PatientHumanNameUpdateManyMutationInput!, where: PatientHumanNameWhereInput): BatchPayload!
-  deleteManyPatientHumanNames(where: PatientHumanNameWhereInput): BatchPayload!
-  createPatientIdentifier(data: PatientIdentifierCreateInput!): PatientIdentifier!
-  updateManyPatientIdentifiers(data: PatientIdentifierUpdateManyMutationInput!, where: PatientIdentifierWhereInput): BatchPayload!
-  deleteManyPatientIdentifiers(where: PatientIdentifierWhereInput): BatchPayload!
-  createPatientModel(data: PatientModelCreateInput!): PatientModel!
-  updatePatientModel(data: PatientModelUpdateInput!, where: PatientModelWhereUniqueInput!): PatientModel
-  updateManyPatientModels(data: PatientModelUpdateManyMutationInput!, where: PatientModelWhereInput): BatchPayload!
-  upsertPatientModel(where: PatientModelWhereUniqueInput!, create: PatientModelCreateInput!, update: PatientModelUpdateInput!): PatientModel!
-  deletePatientModel(where: PatientModelWhereUniqueInput!): PatientModel
-  deleteManyPatientModels(where: PatientModelWhereInput): BatchPayload!
+  createDiagnosis(data: DiagnosisCreateInput!): Diagnosis!
+  updateDiagnosis(data: DiagnosisUpdateInput!, where: DiagnosisWhereUniqueInput!): Diagnosis
+  updateManyDiagnoses(data: DiagnosisUpdateManyMutationInput!, where: DiagnosisWhereInput): BatchPayload!
+  upsertDiagnosis(where: DiagnosisWhereUniqueInput!, create: DiagnosisCreateInput!, update: DiagnosisUpdateInput!): Diagnosis!
+  deleteDiagnosis(where: DiagnosisWhereUniqueInput!): Diagnosis
+  deleteManyDiagnoses(where: DiagnosisWhereInput): BatchPayload!
+  createEncounter(data: EncounterCreateInput!): Encounter!
+  updateEncounter(data: EncounterUpdateInput!, where: EncounterWhereUniqueInput!): Encounter
+  upsertEncounter(where: EncounterWhereUniqueInput!, create: EncounterCreateInput!, update: EncounterUpdateInput!): Encounter!
+  deleteEncounter(where: EncounterWhereUniqueInput!): Encounter
+  deleteManyEncounters(where: EncounterWhereInput): BatchPayload!
+  createReference(data: ReferenceCreateInput!): Reference!
+  updateReference(data: ReferenceUpdateInput!, where: ReferenceWhereUniqueInput!): Reference
+  updateManyReferences(data: ReferenceUpdateManyMutationInput!, where: ReferenceWhereInput): BatchPayload!
+  upsertReference(where: ReferenceWhereUniqueInput!, create: ReferenceCreateInput!, update: ReferenceUpdateInput!): Reference!
+  deleteReference(where: ReferenceWhereUniqueInput!): Reference
+  deleteManyReferences(where: ReferenceWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -78,1001 +313,125 @@ type PageInfo {
   endCursor: String
 }
 
-type PatientAddress {
-  text: String
+type Query {
+  diagnosis(where: DiagnosisWhereUniqueInput!): Diagnosis
+  diagnoses(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Diagnosis]!
+  diagnosesConnection(where: DiagnosisWhereInput, orderBy: DiagnosisOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): DiagnosisConnection!
+  encounter(where: EncounterWhereUniqueInput!): Encounter
+  encounters(where: EncounterWhereInput, orderBy: EncounterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Encounter]!
+  encountersConnection(where: EncounterWhereInput, orderBy: EncounterOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EncounterConnection!
+  reference(where: ReferenceWhereUniqueInput!): Reference
+  references(where: ReferenceWhereInput, orderBy: ReferenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Reference]!
+  referencesConnection(where: ReferenceWhereInput, orderBy: ReferenceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ReferenceConnection!
+  node(id: ID!): Node
 }
 
-type PatientAddressConnection {
+type Reference {
+  id: ID!
+  reference: String!
+  type: String
+  display: String
+}
+
+type ReferenceConnection {
   pageInfo: PageInfo!
-  edges: [PatientAddressEdge]!
-  aggregate: AggregatePatientAddress!
+  edges: [ReferenceEdge]!
+  aggregate: AggregateReference!
 }
 
-input PatientAddressCreateInput {
-  text: String
+input ReferenceCreateInput {
+  id: ID
+  reference: String!
+  type: String
+  display: String
 }
 
-input PatientAddressCreateManyInput {
-  create: [PatientAddressCreateInput!]
+input ReferenceCreateOneInput {
+  create: ReferenceCreateInput
+  connect: ReferenceWhereUniqueInput
 }
 
-type PatientAddressEdge {
-  node: PatientAddress!
+type ReferenceEdge {
+  node: Reference!
   cursor: String!
 }
 
-enum PatientAddressOrderByInput {
-  text_ASC
-  text_DESC
+enum ReferenceOrderByInput {
   id_ASC
   id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientAddressPreviousValues {
-  text: String
-}
-
-input PatientAddressScalarWhereInput {
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  AND: [PatientAddressScalarWhereInput!]
-  OR: [PatientAddressScalarWhereInput!]
-  NOT: [PatientAddressScalarWhereInput!]
-}
-
-type PatientAddressSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientAddress
-  updatedFields: [String!]
-  previousValues: PatientAddressPreviousValues
-}
-
-input PatientAddressSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientAddressWhereInput
-  AND: [PatientAddressSubscriptionWhereInput!]
-  OR: [PatientAddressSubscriptionWhereInput!]
-  NOT: [PatientAddressSubscriptionWhereInput!]
-}
-
-input PatientAddressUpdateManyDataInput {
-  text: String
-}
-
-input PatientAddressUpdateManyInput {
-  create: [PatientAddressCreateInput!]
-  deleteMany: [PatientAddressScalarWhereInput!]
-  updateMany: [PatientAddressUpdateManyWithWhereNestedInput!]
-}
-
-input PatientAddressUpdateManyMutationInput {
-  text: String
-}
-
-input PatientAddressUpdateManyWithWhereNestedInput {
-  where: PatientAddressScalarWhereInput!
-  data: PatientAddressUpdateManyDataInput!
-}
-
-input PatientAddressWhereInput {
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  AND: [PatientAddressWhereInput!]
-  OR: [PatientAddressWhereInput!]
-  NOT: [PatientAddressWhereInput!]
-}
-
-type PatientCodeableConcept {
-  coding(where: PatientCodingWhereInput, orderBy: PatientCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientCoding!]
-  text: String
-}
-
-type PatientCodeableConceptConnection {
-  pageInfo: PageInfo!
-  edges: [PatientCodeableConceptEdge]!
-  aggregate: AggregatePatientCodeableConcept!
-}
-
-input PatientCodeableConceptCreateInput {
-  coding: PatientCodingCreateManyInput
-  text: String
-}
-
-input PatientCodeableConceptCreateOneInput {
-  create: PatientCodeableConceptCreateInput
-}
-
-type PatientCodeableConceptEdge {
-  node: PatientCodeableConcept!
-  cursor: String!
-}
-
-enum PatientCodeableConceptOrderByInput {
-  text_ASC
-  text_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientCodeableConceptPreviousValues {
-  text: String
-}
-
-type PatientCodeableConceptSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientCodeableConcept
-  updatedFields: [String!]
-  previousValues: PatientCodeableConceptPreviousValues
-}
-
-input PatientCodeableConceptSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientCodeableConceptWhereInput
-  AND: [PatientCodeableConceptSubscriptionWhereInput!]
-  OR: [PatientCodeableConceptSubscriptionWhereInput!]
-  NOT: [PatientCodeableConceptSubscriptionWhereInput!]
-}
-
-input PatientCodeableConceptUpdateDataInput {
-  coding: PatientCodingUpdateManyInput
-  text: String
-}
-
-input PatientCodeableConceptUpdateManyMutationInput {
-  text: String
-}
-
-input PatientCodeableConceptUpdateOneRequiredInput {
-  create: PatientCodeableConceptCreateInput
-  update: PatientCodeableConceptUpdateDataInput
-  upsert: PatientCodeableConceptUpsertNestedInput
-}
-
-input PatientCodeableConceptUpsertNestedInput {
-  update: PatientCodeableConceptUpdateDataInput!
-  create: PatientCodeableConceptCreateInput!
-}
-
-input PatientCodeableConceptWhereInput {
-  coding_every: PatientCodingWhereInput
-  coding_some: PatientCodingWhereInput
-  coding_none: PatientCodingWhereInput
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  AND: [PatientCodeableConceptWhereInput!]
-  OR: [PatientCodeableConceptWhereInput!]
-  NOT: [PatientCodeableConceptWhereInput!]
-}
-
-type PatientCoding {
-  system: String
-  version: String
-  code: String
-  display: String
-  userSelected: Boolean
-}
-
-type PatientCodingConnection {
-  pageInfo: PageInfo!
-  edges: [PatientCodingEdge]!
-  aggregate: AggregatePatientCoding!
-}
-
-input PatientCodingCreateInput {
-  system: String
-  version: String
-  code: String
-  display: String
-  userSelected: Boolean
-}
-
-input PatientCodingCreateManyInput {
-  create: [PatientCodingCreateInput!]
-}
-
-type PatientCodingEdge {
-  node: PatientCoding!
-  cursor: String!
-}
-
-enum PatientCodingOrderByInput {
-  system_ASC
-  system_DESC
-  version_ASC
-  version_DESC
-  code_ASC
-  code_DESC
+  reference_ASC
+  reference_DESC
+  type_ASC
+  type_DESC
   display_ASC
   display_DESC
-  userSelected_ASC
-  userSelected_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
 }
 
-type PatientCodingPreviousValues {
-  system: String
-  version: String
-  code: String
-  display: String
-  userSelected: Boolean
-}
-
-input PatientCodingScalarWhereInput {
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  version: String
-  version_not: String
-  version_in: [String!]
-  version_not_in: [String!]
-  version_lt: String
-  version_lte: String
-  version_gt: String
-  version_gte: String
-  version_contains: String
-  version_not_contains: String
-  version_starts_with: String
-  version_not_starts_with: String
-  version_ends_with: String
-  version_not_ends_with: String
-  code: String
-  code_not: String
-  code_in: [String!]
-  code_not_in: [String!]
-  code_lt: String
-  code_lte: String
-  code_gt: String
-  code_gte: String
-  code_contains: String
-  code_not_contains: String
-  code_starts_with: String
-  code_not_starts_with: String
-  code_ends_with: String
-  code_not_ends_with: String
-  display: String
-  display_not: String
-  display_in: [String!]
-  display_not_in: [String!]
-  display_lt: String
-  display_lte: String
-  display_gt: String
-  display_gte: String
-  display_contains: String
-  display_not_contains: String
-  display_starts_with: String
-  display_not_starts_with: String
-  display_ends_with: String
-  display_not_ends_with: String
-  userSelected: Boolean
-  userSelected_not: Boolean
-  AND: [PatientCodingScalarWhereInput!]
-  OR: [PatientCodingScalarWhereInput!]
-  NOT: [PatientCodingScalarWhereInput!]
-}
-
-type PatientCodingSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientCoding
-  updatedFields: [String!]
-  previousValues: PatientCodingPreviousValues
-}
-
-input PatientCodingSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientCodingWhereInput
-  AND: [PatientCodingSubscriptionWhereInput!]
-  OR: [PatientCodingSubscriptionWhereInput!]
-  NOT: [PatientCodingSubscriptionWhereInput!]
-}
-
-input PatientCodingUpdateManyDataInput {
-  system: String
-  version: String
-  code: String
-  display: String
-  userSelected: Boolean
-}
-
-input PatientCodingUpdateManyInput {
-  create: [PatientCodingCreateInput!]
-  deleteMany: [PatientCodingScalarWhereInput!]
-  updateMany: [PatientCodingUpdateManyWithWhereNestedInput!]
-}
-
-input PatientCodingUpdateManyMutationInput {
-  system: String
-  version: String
-  code: String
-  display: String
-  userSelected: Boolean
-}
-
-input PatientCodingUpdateManyWithWhereNestedInput {
-  where: PatientCodingScalarWhereInput!
-  data: PatientCodingUpdateManyDataInput!
-}
-
-input PatientCodingWhereInput {
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  version: String
-  version_not: String
-  version_in: [String!]
-  version_not_in: [String!]
-  version_lt: String
-  version_lte: String
-  version_gt: String
-  version_gte: String
-  version_contains: String
-  version_not_contains: String
-  version_starts_with: String
-  version_not_starts_with: String
-  version_ends_with: String
-  version_not_ends_with: String
-  code: String
-  code_not: String
-  code_in: [String!]
-  code_not_in: [String!]
-  code_lt: String
-  code_lte: String
-  code_gt: String
-  code_gte: String
-  code_contains: String
-  code_not_contains: String
-  code_starts_with: String
-  code_not_starts_with: String
-  code_ends_with: String
-  code_not_ends_with: String
-  display: String
-  display_not: String
-  display_in: [String!]
-  display_not_in: [String!]
-  display_lt: String
-  display_lte: String
-  display_gt: String
-  display_gte: String
-  display_contains: String
-  display_not_contains: String
-  display_starts_with: String
-  display_not_starts_with: String
-  display_ends_with: String
-  display_not_ends_with: String
-  userSelected: Boolean
-  userSelected_not: Boolean
-  AND: [PatientCodingWhereInput!]
-  OR: [PatientCodingWhereInput!]
-  NOT: [PatientCodingWhereInput!]
-}
-
-type PatientContactPoint {
-  system: String
-  value: String
-}
-
-type PatientContactPointConnection {
-  pageInfo: PageInfo!
-  edges: [PatientContactPointEdge]!
-  aggregate: AggregatePatientContactPoint!
-}
-
-input PatientContactPointCreateInput {
-  system: String
-  value: String
-}
-
-input PatientContactPointCreateManyInput {
-  create: [PatientContactPointCreateInput!]
-}
-
-type PatientContactPointEdge {
-  node: PatientContactPoint!
-  cursor: String!
-}
-
-enum PatientContactPointOrderByInput {
-  system_ASC
-  system_DESC
-  value_ASC
-  value_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientContactPointPreviousValues {
-  system: String
-  value: String
-}
-
-input PatientContactPointScalarWhereInput {
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  value: String
-  value_not: String
-  value_in: [String!]
-  value_not_in: [String!]
-  value_lt: String
-  value_lte: String
-  value_gt: String
-  value_gte: String
-  value_contains: String
-  value_not_contains: String
-  value_starts_with: String
-  value_not_starts_with: String
-  value_ends_with: String
-  value_not_ends_with: String
-  AND: [PatientContactPointScalarWhereInput!]
-  OR: [PatientContactPointScalarWhereInput!]
-  NOT: [PatientContactPointScalarWhereInput!]
-}
-
-type PatientContactPointSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientContactPoint
-  updatedFields: [String!]
-  previousValues: PatientContactPointPreviousValues
-}
-
-input PatientContactPointSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientContactPointWhereInput
-  AND: [PatientContactPointSubscriptionWhereInput!]
-  OR: [PatientContactPointSubscriptionWhereInput!]
-  NOT: [PatientContactPointSubscriptionWhereInput!]
-}
-
-input PatientContactPointUpdateManyDataInput {
-  system: String
-  value: String
-}
-
-input PatientContactPointUpdateManyInput {
-  create: [PatientContactPointCreateInput!]
-  deleteMany: [PatientContactPointScalarWhereInput!]
-  updateMany: [PatientContactPointUpdateManyWithWhereNestedInput!]
-}
-
-input PatientContactPointUpdateManyMutationInput {
-  system: String
-  value: String
-}
-
-input PatientContactPointUpdateManyWithWhereNestedInput {
-  where: PatientContactPointScalarWhereInput!
-  data: PatientContactPointUpdateManyDataInput!
-}
-
-input PatientContactPointWhereInput {
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  value: String
-  value_not: String
-  value_in: [String!]
-  value_not_in: [String!]
-  value_lt: String
-  value_lte: String
-  value_gt: String
-  value_gte: String
-  value_contains: String
-  value_not_contains: String
-  value_starts_with: String
-  value_not_starts_with: String
-  value_ends_with: String
-  value_not_ends_with: String
-  AND: [PatientContactPointWhereInput!]
-  OR: [PatientContactPointWhereInput!]
-  NOT: [PatientContactPointWhereInput!]
-}
-
-type PatientHumanName {
-  text: String
-  given: [String!]!
-  family: String
-}
-
-type PatientHumanNameConnection {
-  pageInfo: PageInfo!
-  edges: [PatientHumanNameEdge]!
-  aggregate: AggregatePatientHumanName!
-}
-
-input PatientHumanNameCreategivenInput {
-  set: [String!]
-}
-
-input PatientHumanNameCreateInput {
-  text: String
-  given: PatientHumanNameCreategivenInput
-  family: String
-}
-
-input PatientHumanNameCreateManyInput {
-  create: [PatientHumanNameCreateInput!]
-}
-
-type PatientHumanNameEdge {
-  node: PatientHumanName!
-  cursor: String!
-}
-
-enum PatientHumanNameOrderByInput {
-  text_ASC
-  text_DESC
-  family_ASC
-  family_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientHumanNamePreviousValues {
-  text: String
-  given: [String!]!
-  family: String
-}
-
-input PatientHumanNameScalarWhereInput {
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  family: String
-  family_not: String
-  family_in: [String!]
-  family_not_in: [String!]
-  family_lt: String
-  family_lte: String
-  family_gt: String
-  family_gte: String
-  family_contains: String
-  family_not_contains: String
-  family_starts_with: String
-  family_not_starts_with: String
-  family_ends_with: String
-  family_not_ends_with: String
-  AND: [PatientHumanNameScalarWhereInput!]
-  OR: [PatientHumanNameScalarWhereInput!]
-  NOT: [PatientHumanNameScalarWhereInput!]
-}
-
-type PatientHumanNameSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientHumanName
-  updatedFields: [String!]
-  previousValues: PatientHumanNamePreviousValues
-}
-
-input PatientHumanNameSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientHumanNameWhereInput
-  AND: [PatientHumanNameSubscriptionWhereInput!]
-  OR: [PatientHumanNameSubscriptionWhereInput!]
-  NOT: [PatientHumanNameSubscriptionWhereInput!]
-}
-
-input PatientHumanNameUpdategivenInput {
-  set: [String!]
-}
-
-input PatientHumanNameUpdateManyDataInput {
-  text: String
-  given: PatientHumanNameUpdategivenInput
-  family: String
-}
-
-input PatientHumanNameUpdateManyInput {
-  create: [PatientHumanNameCreateInput!]
-  deleteMany: [PatientHumanNameScalarWhereInput!]
-  updateMany: [PatientHumanNameUpdateManyWithWhereNestedInput!]
-}
-
-input PatientHumanNameUpdateManyMutationInput {
-  text: String
-  given: PatientHumanNameUpdategivenInput
-  family: String
-}
-
-input PatientHumanNameUpdateManyWithWhereNestedInput {
-  where: PatientHumanNameScalarWhereInput!
-  data: PatientHumanNameUpdateManyDataInput!
-}
-
-input PatientHumanNameWhereInput {
-  text: String
-  text_not: String
-  text_in: [String!]
-  text_not_in: [String!]
-  text_lt: String
-  text_lte: String
-  text_gt: String
-  text_gte: String
-  text_contains: String
-  text_not_contains: String
-  text_starts_with: String
-  text_not_starts_with: String
-  text_ends_with: String
-  text_not_ends_with: String
-  family: String
-  family_not: String
-  family_in: [String!]
-  family_not_in: [String!]
-  family_lt: String
-  family_lte: String
-  family_gt: String
-  family_gte: String
-  family_contains: String
-  family_not_contains: String
-  family_starts_with: String
-  family_not_starts_with: String
-  family_ends_with: String
-  family_not_ends_with: String
-  AND: [PatientHumanNameWhereInput!]
-  OR: [PatientHumanNameWhereInput!]
-  NOT: [PatientHumanNameWhereInput!]
-}
-
-type PatientIdentifier {
-  value: String!
-  system: String
-}
-
-type PatientIdentifierConnection {
-  pageInfo: PageInfo!
-  edges: [PatientIdentifierEdge]!
-  aggregate: AggregatePatientIdentifier!
-}
-
-input PatientIdentifierCreateInput {
-  value: String!
-  system: String
-}
-
-input PatientIdentifierCreateManyInput {
-  create: [PatientIdentifierCreateInput!]
-}
-
-type PatientIdentifierEdge {
-  node: PatientIdentifier!
-  cursor: String!
-}
-
-enum PatientIdentifierOrderByInput {
-  value_ASC
-  value_DESC
-  system_ASC
-  system_DESC
-  id_ASC
-  id_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientIdentifierPreviousValues {
-  value: String!
-  system: String
-}
-
-input PatientIdentifierScalarWhereInput {
-  value: String
-  value_not: String
-  value_in: [String!]
-  value_not_in: [String!]
-  value_lt: String
-  value_lte: String
-  value_gt: String
-  value_gte: String
-  value_contains: String
-  value_not_contains: String
-  value_starts_with: String
-  value_not_starts_with: String
-  value_ends_with: String
-  value_not_ends_with: String
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  AND: [PatientIdentifierScalarWhereInput!]
-  OR: [PatientIdentifierScalarWhereInput!]
-  NOT: [PatientIdentifierScalarWhereInput!]
-}
-
-type PatientIdentifierSubscriptionPayload {
-  mutation: MutationType!
-  node: PatientIdentifier
-  updatedFields: [String!]
-  previousValues: PatientIdentifierPreviousValues
-}
-
-input PatientIdentifierSubscriptionWhereInput {
-  mutation_in: [MutationType!]
-  updatedFields_contains: String
-  updatedFields_contains_every: [String!]
-  updatedFields_contains_some: [String!]
-  node: PatientIdentifierWhereInput
-  AND: [PatientIdentifierSubscriptionWhereInput!]
-  OR: [PatientIdentifierSubscriptionWhereInput!]
-  NOT: [PatientIdentifierSubscriptionWhereInput!]
-}
-
-input PatientIdentifierUpdateManyDataInput {
-  value: String
-  system: String
-}
-
-input PatientIdentifierUpdateManyInput {
-  create: [PatientIdentifierCreateInput!]
-  deleteMany: [PatientIdentifierScalarWhereInput!]
-  updateMany: [PatientIdentifierUpdateManyWithWhereNestedInput!]
-}
-
-input PatientIdentifierUpdateManyMutationInput {
-  value: String
-  system: String
-}
-
-input PatientIdentifierUpdateManyWithWhereNestedInput {
-  where: PatientIdentifierScalarWhereInput!
-  data: PatientIdentifierUpdateManyDataInput!
-}
-
-input PatientIdentifierWhereInput {
-  value: String
-  value_not: String
-  value_in: [String!]
-  value_not_in: [String!]
-  value_lt: String
-  value_lte: String
-  value_gt: String
-  value_gte: String
-  value_contains: String
-  value_not_contains: String
-  value_starts_with: String
-  value_not_starts_with: String
-  value_ends_with: String
-  value_not_ends_with: String
-  system: String
-  system_not: String
-  system_in: [String!]
-  system_not_in: [String!]
-  system_lt: String
-  system_lte: String
-  system_gt: String
-  system_gte: String
-  system_contains: String
-  system_not_contains: String
-  system_starts_with: String
-  system_not_starts_with: String
-  system_ends_with: String
-  system_not_ends_with: String
-  AND: [PatientIdentifierWhereInput!]
-  OR: [PatientIdentifierWhereInput!]
-  NOT: [PatientIdentifierWhereInput!]
-}
-
-type PatientModel {
+type ReferencePreviousValues {
   id: ID!
-  name(where: PatientHumanNameWhereInput, orderBy: PatientHumanNameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientHumanName!]
-  identifier(where: PatientIdentifierWhereInput, orderBy: PatientIdentifierOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientIdentifier!]
-  telecom(where: PatientContactPointWhereInput, orderBy: PatientContactPointOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientContactPoint!]
-  birthDate: DateTime
-  gender: String
-  mariatalStatus: PatientCodeableConcept!
-  address(where: PatientAddressWhereInput, orderBy: PatientAddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientAddress!]
+  reference: String!
+  type: String
+  display: String
 }
 
-type PatientModelConnection {
-  pageInfo: PageInfo!
-  edges: [PatientModelEdge]!
-  aggregate: AggregatePatientModel!
-}
-
-input PatientModelCreateInput {
-  name: PatientHumanNameCreateManyInput
-  identifier: PatientIdentifierCreateManyInput
-  telecom: PatientContactPointCreateManyInput
-  birthDate: DateTime
-  gender: String
-  mariatalStatus: PatientCodeableConceptCreateOneInput!
-  address: PatientAddressCreateManyInput
-}
-
-type PatientModelEdge {
-  node: PatientModel!
-  cursor: String!
-}
-
-enum PatientModelOrderByInput {
-  id_ASC
-  id_DESC
-  birthDate_ASC
-  birthDate_DESC
-  gender_ASC
-  gender_DESC
-  createdAt_ASC
-  createdAt_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-}
-
-type PatientModelPreviousValues {
-  id: ID!
-  birthDate: DateTime
-  gender: String
-}
-
-type PatientModelSubscriptionPayload {
+type ReferenceSubscriptionPayload {
   mutation: MutationType!
-  node: PatientModel
+  node: Reference
   updatedFields: [String!]
-  previousValues: PatientModelPreviousValues
+  previousValues: ReferencePreviousValues
 }
 
-input PatientModelSubscriptionWhereInput {
+input ReferenceSubscriptionWhereInput {
   mutation_in: [MutationType!]
   updatedFields_contains: String
   updatedFields_contains_every: [String!]
   updatedFields_contains_some: [String!]
-  node: PatientModelWhereInput
-  AND: [PatientModelSubscriptionWhereInput!]
-  OR: [PatientModelSubscriptionWhereInput!]
-  NOT: [PatientModelSubscriptionWhereInput!]
+  node: ReferenceWhereInput
+  AND: [ReferenceSubscriptionWhereInput!]
+  OR: [ReferenceSubscriptionWhereInput!]
+  NOT: [ReferenceSubscriptionWhereInput!]
 }
 
-input PatientModelUpdateInput {
-  name: PatientHumanNameUpdateManyInput
-  identifier: PatientIdentifierUpdateManyInput
-  telecom: PatientContactPointUpdateManyInput
-  birthDate: DateTime
-  gender: String
-  mariatalStatus: PatientCodeableConceptUpdateOneRequiredInput
-  address: PatientAddressUpdateManyInput
+input ReferenceUpdateDataInput {
+  reference: String
+  type: String
+  display: String
 }
 
-input PatientModelUpdateManyMutationInput {
-  birthDate: DateTime
-  gender: String
+input ReferenceUpdateInput {
+  reference: String
+  type: String
+  display: String
 }
 
-input PatientModelWhereInput {
+input ReferenceUpdateManyMutationInput {
+  reference: String
+  type: String
+  display: String
+}
+
+input ReferenceUpdateOneInput {
+  create: ReferenceCreateInput
+  update: ReferenceUpdateDataInput
+  upsert: ReferenceUpsertNestedInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: ReferenceWhereUniqueInput
+}
+
+input ReferenceUpdateOneRequiredInput {
+  create: ReferenceCreateInput
+  update: ReferenceUpdateDataInput
+  upsert: ReferenceUpsertNestedInput
+  connect: ReferenceWhereUniqueInput
+}
+
+input ReferenceUpsertNestedInput {
+  update: ReferenceUpdateDataInput!
+  create: ReferenceCreateInput!
+}
+
+input ReferenceWhereInput {
   id: ID
   id_not: ID
   id_in: [ID!]
@@ -1087,75 +446,59 @@ input PatientModelWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  name_every: PatientHumanNameWhereInput
-  name_some: PatientHumanNameWhereInput
-  name_none: PatientHumanNameWhereInput
-  identifier_every: PatientIdentifierWhereInput
-  identifier_some: PatientIdentifierWhereInput
-  identifier_none: PatientIdentifierWhereInput
-  telecom_every: PatientContactPointWhereInput
-  telecom_some: PatientContactPointWhereInput
-  telecom_none: PatientContactPointWhereInput
-  birthDate: DateTime
-  birthDate_not: DateTime
-  birthDate_in: [DateTime!]
-  birthDate_not_in: [DateTime!]
-  birthDate_lt: DateTime
-  birthDate_lte: DateTime
-  birthDate_gt: DateTime
-  birthDate_gte: DateTime
-  gender: String
-  gender_not: String
-  gender_in: [String!]
-  gender_not_in: [String!]
-  gender_lt: String
-  gender_lte: String
-  gender_gt: String
-  gender_gte: String
-  gender_contains: String
-  gender_not_contains: String
-  gender_starts_with: String
-  gender_not_starts_with: String
-  gender_ends_with: String
-  gender_not_ends_with: String
-  mariatalStatus: PatientCodeableConceptWhereInput
-  address_every: PatientAddressWhereInput
-  address_some: PatientAddressWhereInput
-  address_none: PatientAddressWhereInput
-  AND: [PatientModelWhereInput!]
-  OR: [PatientModelWhereInput!]
-  NOT: [PatientModelWhereInput!]
+  reference: String
+  reference_not: String
+  reference_in: [String!]
+  reference_not_in: [String!]
+  reference_lt: String
+  reference_lte: String
+  reference_gt: String
+  reference_gte: String
+  reference_contains: String
+  reference_not_contains: String
+  reference_starts_with: String
+  reference_not_starts_with: String
+  reference_ends_with: String
+  reference_not_ends_with: String
+  type: String
+  type_not: String
+  type_in: [String!]
+  type_not_in: [String!]
+  type_lt: String
+  type_lte: String
+  type_gt: String
+  type_gte: String
+  type_contains: String
+  type_not_contains: String
+  type_starts_with: String
+  type_not_starts_with: String
+  type_ends_with: String
+  type_not_ends_with: String
+  display: String
+  display_not: String
+  display_in: [String!]
+  display_not_in: [String!]
+  display_lt: String
+  display_lte: String
+  display_gt: String
+  display_gte: String
+  display_contains: String
+  display_not_contains: String
+  display_starts_with: String
+  display_not_starts_with: String
+  display_ends_with: String
+  display_not_ends_with: String
+  AND: [ReferenceWhereInput!]
+  OR: [ReferenceWhereInput!]
+  NOT: [ReferenceWhereInput!]
 }
 
-input PatientModelWhereUniqueInput {
+input ReferenceWhereUniqueInput {
   id: ID
 }
 
-type Query {
-  patientAddresses(where: PatientAddressWhereInput, orderBy: PatientAddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientAddress]!
-  patientAddressesConnection(where: PatientAddressWhereInput, orderBy: PatientAddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientAddressConnection!
-  patientCodeableConcepts(where: PatientCodeableConceptWhereInput, orderBy: PatientCodeableConceptOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientCodeableConcept]!
-  patientCodeableConceptsConnection(where: PatientCodeableConceptWhereInput, orderBy: PatientCodeableConceptOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientCodeableConceptConnection!
-  patientCodings(where: PatientCodingWhereInput, orderBy: PatientCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientCoding]!
-  patientCodingsConnection(where: PatientCodingWhereInput, orderBy: PatientCodingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientCodingConnection!
-  patientContactPoints(where: PatientContactPointWhereInput, orderBy: PatientContactPointOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientContactPoint]!
-  patientContactPointsConnection(where: PatientContactPointWhereInput, orderBy: PatientContactPointOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientContactPointConnection!
-  patientHumanNames(where: PatientHumanNameWhereInput, orderBy: PatientHumanNameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientHumanName]!
-  patientHumanNamesConnection(where: PatientHumanNameWhereInput, orderBy: PatientHumanNameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientHumanNameConnection!
-  patientIdentifiers(where: PatientIdentifierWhereInput, orderBy: PatientIdentifierOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientIdentifier]!
-  patientIdentifiersConnection(where: PatientIdentifierWhereInput, orderBy: PatientIdentifierOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientIdentifierConnection!
-  patientModel(where: PatientModelWhereUniqueInput!): PatientModel
-  patientModels(where: PatientModelWhereInput, orderBy: PatientModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PatientModel]!
-  patientModelsConnection(where: PatientModelWhereInput, orderBy: PatientModelOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PatientModelConnection!
-  node(id: ID!): Node
-}
-
 type Subscription {
-  patientAddress(where: PatientAddressSubscriptionWhereInput): PatientAddressSubscriptionPayload
-  patientCodeableConcept(where: PatientCodeableConceptSubscriptionWhereInput): PatientCodeableConceptSubscriptionPayload
-  patientCoding(where: PatientCodingSubscriptionWhereInput): PatientCodingSubscriptionPayload
-  patientContactPoint(where: PatientContactPointSubscriptionWhereInput): PatientContactPointSubscriptionPayload
-  patientHumanName(where: PatientHumanNameSubscriptionWhereInput): PatientHumanNameSubscriptionPayload
-  patientIdentifier(where: PatientIdentifierSubscriptionWhereInput): PatientIdentifierSubscriptionPayload
-  patientModel(where: PatientModelSubscriptionWhereInput): PatientModelSubscriptionPayload
+  diagnosis(where: DiagnosisSubscriptionWhereInput): DiagnosisSubscriptionPayload
+  encounter(where: EncounterSubscriptionWhereInput): EncounterSubscriptionPayload
+  reference(where: ReferenceSubscriptionWhereInput): ReferenceSubscriptionPayload
 }

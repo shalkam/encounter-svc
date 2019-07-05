@@ -1,43 +1,18 @@
-type PatientModel {
-    id: ID! @unique
-    name: [PatientHumanName]
-    identifier: [PatientIdentifier]
-    telecom: [PatientContactPoint]
-    birthDate: DateTime
-    gender: String
-    mariatalStatus: PatientCodeableConcept!
-    address: [PatientAddress]
+type Encounter {
+    id: ID! @id
+    subject: Reference!
+    diagnosis: [Diagnosis]
 }
 
-type PatientHumanName {
-    text: String
-    given: [String]
-    family: String
+type Diagnosis {
+    id: ID! @id
+    use: String!
+    condition: Reference
 }
 
-type PatientContactPoint {
-    system: String
-    value: String
-}
-
-type PatientAddress {
-    text: String
-}
-
-type PatientIdentifier {
-    value: String!
-    system: String
-}
-
-type PatientCodeableConcept {
-    coding: [PatientCoding]
-    text: String
-}
-
-type PatientCoding {
-    system: String
-    version: String
-    code: String
+type Reference {
+    id: ID! @id
+    reference: String!
+    type: String
     display: String
-    userSelected: Boolean
 }

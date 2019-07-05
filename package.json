@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node graphql",
-    "deploy": "cd prisma && env-cmd ../.env prisma deploy",
+    "deploy": "cd prisma && prisma deploy -e ../.env",
     "dev": "env-cmd ./.env nodemon --preserve-symlinks -e js,graphql graphql/index.js",
     "deploy-test": "cd prisma && env-cmd ../.env.test prisma deploy",
     "reset-test": "cd prisma && prisma reset -e ../.env.test -f",

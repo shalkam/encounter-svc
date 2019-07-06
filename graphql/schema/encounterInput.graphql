@@ -1,30 +1,25 @@
 # import slices from "directives"
 
 input EncounterInput {
-    diagnosis: DiagnosisInput @slices(value: [
+    diagnosis: [DiagnosisInput] @slices(value: [
         {
-            id: "Encounter.diagnosis",
-            path: "Encounter.diagnosis",
             slicing: {
                 discriminator: [{
                     type: Value,
                     path: "use"
                 }],
                 rules: Closed
-            },
-            min: 2,
-            max: 2
+            }
         },
         {
-            id: "Encounter.diagnosis:complaint",
-            path: "Encounter.diagnosis",
+            id: "complaint",
             sliceName: "complaint"
             min: 1,
             max: 1
         },
         {
-            id: "Encounter.diagnosis:complaint.use",
-            path: "Encounter.diagnosis.use",
+            id: "complaint.use",
+            path: "use",
             fixedCodeableConcept: {
                 coding: {
                     code : "CC"
@@ -32,15 +27,15 @@ input EncounterInput {
             }
         },
         {
-            id: "Encounter.diagnosis:diagnosis",
+            id: "diagnosis",
             path: "Encounter.diagnosis",
             sliceName: "diagnosis"
             min: 1,
             max: 1
         },
         {
-            id: "Encounter.diagnosis:diagnosis.use",
-            path: "Encounter.diagnosis.use",
+            id: "diagnosis.use",
+            path: "use",
             fixedCodeableConcept: {
                 coding: {
                     code : "billing"
@@ -56,10 +51,10 @@ input DiagnosisInput {
         description: "This value set defines a set of codes that can be used to express the role of a diagnosis on the Encounter or EpisodeOfCare record."
         codeSystem: "http://localhost:4001/codeSystems/codesystem-diagnosis-role.json"
     )
-  condition: Reference
+  condition: ReferenceInput
 }
 
-input Reference {
+input ReferenceInput {
     reference: String!
     type: String
     display: String

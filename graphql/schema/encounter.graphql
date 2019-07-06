@@ -2,8 +2,8 @@
 
 type Encounter {
   id: ID
-  subject: String!
-  diagnosis: String
+  subject: Reference!
+  diagnosis: Diagnosis
 }
 
 type EncounterEdge {

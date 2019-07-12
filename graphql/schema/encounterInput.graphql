@@ -1,6 +1,7 @@
 # import slices from "directives"
 
 input EncounterInput {
+    patient: ReferenceInput!
     diagnosis: [DiagnosisInput] @slices(value: [
         {
             slicing: {

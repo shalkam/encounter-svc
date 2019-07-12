@@ -12,7 +12,6 @@ const resolvers = {
   },
   Mutation: {
     createEncounter: (_, { data }, { prisma }, info) => {
-      console.log(data)
       return null
       // if (data.name) {
       //   data.name = {

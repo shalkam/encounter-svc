@@ -9,7 +9,9 @@ input EncounterInput {
                     path: "use"
                 }],
                 rules: Closed
-            }
+            },
+            min: 2,
+            max: 2
         },
         {
             id: "complaint",
@@ -20,11 +22,7 @@ input EncounterInput {
         {
             id: "complaint.use",
             path: "use",
-            fixedCodeableConcept: {
-                coding: {
-                    code : "CC"
-                }
-            }
+            fixedCodeableConcept: { coding: { code : "CC" } }
         },
         {
             id: "diagnosis",
@@ -36,11 +34,7 @@ input EncounterInput {
         {
             id: "diagnosis.use",
             path: "use",
-            fixedCodeableConcept: {
-                coding: {
-                    code : "billing"
-                }
-            }
+            fixedCodeableConcept: { coding: { code : "billing" } }
         }
     ])
 }
